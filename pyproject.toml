@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "fabricated-risk-histories"
 version = "1.0.0"
 description = "Code and data for When Fabricated Risk Histories Alter LLM Trading Decisions"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 license = "MIT"
 authors = [{ name = "Weicheng Xue" }]
 dependencies = ["matplotlib>=3.8", "scipy>=1.11"]

@@ -13,7 +13,7 @@ prompt-construction code, the frozen analysis plans, and an offline verifier.
 
 ## Quick start
 
-Python 3.10 or newer. No network access or API key is needed.
+Python 3.11 or newer (tested with 3.12). No network access or API key is needed.
 
 ```text
 python -m pip install -r requirements.txt
@@ -31,7 +31,7 @@ rule-based memory-pollution sweep and compares it with the released records.
 | Paper item | Released results | Script |
 |---|---|---|
 | Figure 1 | none (diagram) | `render_mempoll_system_figure.py` |
-| Table 2 dates and the shared-cache count | `memory_pollution_provenance/` | `build_mempoll_provenance.py` |
+| Table 2 dates for the upward-path arms, and the shared-cache count | `memory_pollution_provenance/` | `build_mempoll_provenance.py` |
 | Figure 2, Table 3 | `memory_pollution_neutral/` | `analyze_mempoll_neutral.py`, `render_mempoll_neutral_figure.py` |
 | Figure 3, Table 4, trendless-minus-downward contrast | `memory_pollution_regimes/` | `analyze_mempoll_regimes.py`, `render_mempoll_regime_figure.py` |
 | Figure 4 and the dose-0.25 contrasts | `memory_pollution_dose025/` | `analyze_mempoll_dose025.py`, `render_mempoll_dose_curve.py` |
@@ -47,9 +47,9 @@ Result folders are under `docs/results/`; run-level outcomes are under
 instructed replay relates to its freeze. The provenance script needs the
 private response cache and is included for inspection only.
 
-The Section 5 arms were exploratory instructed runs. Besides the two direct
-models, they include routed runs of `claude-opus-4.7`, `gpt-5.5` and
-`gemini-3.1-pro`, which the paper does not use for its main estimates.
+The `memory_pollution_llm*` arms are exploratory instructed runs. Besides the
+two direct models, they include routed runs of `claude-opus-4.7`, `gpt-5.5`
+and `gemini-3.1-pro`, which the paper does not use for its main estimates.
 
 ## What can be reproduced
 
