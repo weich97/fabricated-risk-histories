@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this code or data, please cite the paper."
+type: software
+title: "When Fabricated Risk Histories Alter LLM Trading Decisions"
+authors:
+  - family-names: Xue
+    given-names: Weicheng
+    affiliation: Virginia Tech
+repository-code: "https://github.com/weich97/fabricated-risk-histories"
+license: MIT
+version: 1.0.0
+date-released: 2026-10-02

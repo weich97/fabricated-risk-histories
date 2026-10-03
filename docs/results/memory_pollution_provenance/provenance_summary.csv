@@ -1,0 +1,9 @@
+mode,agent,dose,runs,logical_calls,unique_prompt_response_pairs,first_cache_timestamp_utc,last_cache_timestamp_utc,logical_calls_collected_before_confirmatory_freeze,unique_pairs_collected_before_confirmatory_freeze
+instructed,deepseek:deepseek-v4-pro,0.0,90,2160,2156,2026-06-12T08:22:59Z,2026-07-02T20:39:26Z,2160,2156
+instructed,deepseek:deepseek-v4-pro,0.75,90,2160,2153,2026-06-12T08:22:59Z,2026-07-16T16:49:39Z,2016,2009
+instructed,glm:glm-5,0.0,90,2160,2140,2026-06-12T13:46:07Z,2026-07-03T00:39:53Z,2160,2140
+instructed,glm:glm-5,0.75,90,2160,2147,2026-06-12T13:46:07Z,2026-07-16T18:45:47Z,1980,1967
+neutral,deepseek:deepseek-v4-pro,0.0,90,2160,2143,2026-07-18T12:44:12Z,2026-07-18T16:42:08Z,0,0
+neutral,deepseek:deepseek-v4-pro,0.75,90,2160,2149,2026-07-18T12:44:12Z,2026-07-18T19:42:19Z,0,0
+neutral,glm:glm-5,0.0,90,2160,2160,2026-07-18T12:44:14Z,2026-07-18T17:06:49Z,0,0
+neutral,glm:glm-5,0.75,90,2160,2160,2026-07-18T12:44:14Z,2026-07-22T13:54:18Z,0,0
