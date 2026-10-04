@@ -1,8 +1,12 @@
 # Explicit risk-feedback directive ablation
 
 The neutral arm removes the explicit risk-feedback directive from the
-user JSON but retains the cautious system role. Positive interaction
-means the directive increases the d=.75 minus d=0 response.
+user JSON but retains the cautious system role. The interaction is
+the earlier instructed batch's d=.75 minus d=0 contrast minus the
+later directive-removed batch's contrast. Because prompt modes were
+collected sequentially, it is descriptive and does not identify a
+causal effect of the directive. Within-mode contrasts also assume
+provider stability across arm collection dates.
 
 ## Directive interactions
 
@@ -19,7 +23,11 @@ means the directive increases the d=.75 minus d=0 response.
 
 ## Within-mode effects
 
-The four neutral primary effects form a separate BH family.
+This prompt-mode analysis uses a four-test BH family for the neutral
+primary effects. The final paper's q_R values instead use all twelve
+directive-removed regime effects and are in
+docs/results/memory_pollution_regimes/regime_effects.csv.
+The four directive interactions have their own separate BH family.
 
 | Mode | Agent | Outcome | Family | d=.75 - d=0 | 95% CI | p | q |
 | --- | --- | --- | --- | ---: | --- | ---: | ---: |

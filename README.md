@@ -5,8 +5,11 @@ Code and data for the paper:
 > Weicheng Xue. When Fabricated Risk Histories Alter LLM Trading Decisions. arXiv preprint, 2026.
 
 The study injects fabricated risk violations into the history an LLM trading
-agent recalls, while the execution journal, market stream and risk rules stay
-authoritative, and estimates the paired effect on later decisions. This
+agent recalls, while the execution journal and market stream stay authoritative
+and risk settings stay fixed, and measures paired differences in later
+decisions under a provider-stability assumption. The main arms disable the
+position gate. The injected false violation is a field added to a recalled
+copy of a genuine step, not an extra step in the journal. This
 repository contains the run-level outcomes behind every reported table and
 figure, the analysis and figure scripts, the simulator, memory and
 prompt-construction code, the frozen analysis plans, and an offline verifier.
@@ -21,6 +24,12 @@ python verify_artifact.py
 python -m pytest
 ```
 
+To recompute saved analyses and figures without running new simulator cases:
+
+```text
+python verify_artifact.py --analysis-only
+```
+
 `verify_artifact.py` checks every file against `SHA256SUMS`, reruns every
 analysis in a temporary copy and compares the regenerated tables and reports
 with the released ones, renders the four figures, and reruns a slice of the
@@ -32,7 +41,8 @@ rule-based memory-pollution sweep and compares it with the released records.
 |---|---|---|
 | Figure 1 | none (diagram) | `render_mempoll_system_figure.py` |
 | Table 2 dates for the upward-path arms, and the shared-cache count | `memory_pollution_provenance/` | `build_mempoll_provenance.py` |
-| Figure 2, Table 3 | `memory_pollution_neutral/` | `analyze_mempoll_neutral.py`, `render_mempoll_neutral_figure.py` |
+| Figure 2 and Table 3 estimates, intervals, q_I | `memory_pollution_neutral/` | `analyze_mempoll_neutral.py`, `render_mempoll_neutral_figure.py` |
+| Table 3 final q_R (12-test family) | `memory_pollution_regimes/regime_effects.csv` | `analyze_mempoll_regimes.py` |
 | Figure 3, Table 4, trendless-minus-downward contrast | `memory_pollution_regimes/` | `analyze_mempoll_regimes.py`, `render_mempoll_regime_figure.py` |
 | Figure 4 and the dose-0.25 contrasts | `memory_pollution_dose025/` | `analyze_mempoll_dose025.py`, `render_mempoll_dose_curve.py` |
 | Instructed fixed grid at doses 0.05 and 0.10 | `memory_pollution_confirm/` | `analyze_mempoll_confirm.py` |
@@ -50,6 +60,20 @@ private response cache and is included for inspection only.
 The `memory_pollution_llm*` arms are exploratory instructed runs. Besides the
 two direct models, they include routed runs of `claude-opus-4.7`, `gpt-5.5`
 and `gemini-3.1-pro`, which the paper does not use for its main estimates.
+
+Prompt-mode interactions are descriptive because the batches were collected
+sequentially. The neutral analysis retains its original four-test BH family;
+the final paper uses the twelve directive-removed regime tests for q_R.
+Within-mode API contrasts also assume provider stability: in the upward GLM
+comparison all control responses were cached on July 18, while 427 of 2,070
+noninitial treatment responses were cached on July 22. Dose arms were not
+interleaved, and seed pairing does not control date differences.
+
+The journal filter aligns recalled steps by list position and checks rejected
+order count, violation count and equity rounded to six decimal places. A
+mismatch quarantines the entire step; the filter neither checks all fields nor
+restores them. Field restoration was not implemented or evaluated. The LLM
+and the filter do not use the injector's analysis tag.
 
 ## What can be reproduced
 

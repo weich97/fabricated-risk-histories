@@ -264,6 +264,13 @@ def variance_components(values_by_group: Mapping[Any, Iterable[float]]) -> dict[
     For matrix runs, groups are market seeds and the within-group values are
     repeated provider samples at a fixed seed: between-group variance reflects
     market-path sensitivity, within-group variance reflects model stochasticity.
+    The method assumes independent sampling errors with a common within-group
+    variance. That variance is estimated by averaging the sample variances of
+    groups with repeats; sparse repeat coverage makes the estimate unstable.
+    For unequal group sizes, the sampling variance of the unweighted group
+    means is within * mean(1/n), including singleton groups. The between-group
+    estimate is floored at zero, so the reported components and their ratio
+    should not be described as unbiased after truncation.
     Within-group variance is None unless at least one group has two samples.
     """
 
@@ -280,19 +287,15 @@ def variance_components(values_by_group: Mapping[Any, Iterable[float]]) -> dict[
     group_means = [mean(values) for values in groups.values()]
     within_list = [sample_std(values) ** 2 for values in groups.values() if len(values) >= 2]
     within = mean(within_list) if within_list else None
-    # The variance of the group means estimates sigma_b^2 + sigma_w^2/n, not
-    # sigma_b^2, so using it directly inflates the denominator and biases the
-    # within-group share downward -- i.e. it makes sampling noise look smaller
-    # than it is. Subtract the sampling component, floored at zero because the
-    # unbiased estimator can go negative when the true between variance is near
-    # zero.
+    # With S unweighted group means and common within variance sigma_w^2,
+    # E[sample_variance(means)] = sigma_b^2 + sigma_w^2 * sum(1/n_s)/S.
+    # Include singleton groups: they contribute sampling noise too.
     between = None
     if len(group_means) >= 2:
         naive_between = sample_std(group_means) ** 2
-        sizes = [len(values) for values in groups.values() if len(values) >= 2]
-        if within is not None and sizes:
-            mean_size = mean([float(size) for size in sizes])
-            between = max(0.0, naive_between - within / mean_size)
+        if within is not None:
+            mean_reciprocal_size = mean([1.0 / len(values) for values in groups.values()])
+            between = max(0.0, naive_between - within * mean_reciprocal_size)
         else:
             between = naive_between
     share: float | None = None

@@ -12,6 +12,7 @@ No network access or API key is used. Released files are never modified.
 
 from __future__ import annotations
 
+import argparse
 import csv
 import hashlib
 import os
@@ -167,12 +168,18 @@ def check_rerun(tmp: Path) -> None:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--analysis-only", action="store_true",
+                        help="Recompute saved results and figures without running simulator cases.")
+    args = parser.parse_args()
     check_manifest()
     with tempfile.TemporaryDirectory() as tmp:
         check_reanalysis(Path(tmp))
         check_figures(Path(tmp))
-        check_rerun(Path(tmp))
-    print("All checks passed.")
+        if not args.analysis_only:
+            check_rerun(Path(tmp))
+    print("Analysis checks passed; simulator rerun skipped (--analysis-only)."
+          if args.analysis_only else "All checks passed.")
     return 0
 
 

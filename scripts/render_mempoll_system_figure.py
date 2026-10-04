@@ -130,7 +130,7 @@ def render(path: Path) -> None:
         linewidth=1.2,
     )
     box(ax, 0.49, 0.19, 0.12, 0.20, "LLM\ndecision", face=gray_fill, edge=gray_edge)
-    box(ax, 0.68, 0.19, 0.12, 0.20, "Risk\ngate", face=blue_fill, edge=blue_edge)
+    box(ax, 0.68, 0.19, 0.12, 0.20, "Position gate\npass-through\n(main arms)", face=blue_fill, edge=blue_edge, fontsize=7.1)
     box(ax, 0.85, 0.19, 0.12, 0.20, "Execution", face=blue_fill, edge=blue_edge)
 
     arrow(ax, (0.26, 0.29), (0.30, 0.29), color=amber_edge)
@@ -138,11 +138,10 @@ def render(path: Path) -> None:
     arrow(ax, (0.61, 0.29), (0.68, 0.29), color=gray_edge)
     arrow(ax, (0.80, 0.29), (0.85, 0.29), color=blue_edge)
 
-    # The three downward edges expose which authoritative fields reach each
+    # The two downward edges expose which authoritative fields reach each
     # consumer. In particular, the journal reaches the LLM only through recall.
     arrow(ax, (0.37, 0.64), (0.195, 0.39), color=blue_edge, style="--", connection="arc3,rad=0.06")
     arrow(ax, (0.48, 0.64), (0.55, 0.39), color=blue_edge, connection="arc3,rad=-0.04")
-    arrow(ax, (0.59, 0.64), (0.74, 0.39), color=blue_edge, connection="arc3,rad=-0.05")
 
     # Execution changes the next-step portfolio and journal, but not the shared
     # market path. Stop the arrow at the state-box boundary so it cannot obscure
@@ -165,16 +164,6 @@ def render(path: Path) -> None:
         0.505,
         0.515,
         "market + portfolio",
-        ha="center",
-        va="center",
-        fontsize=6.7,
-        color=blue_edge,
-        bbox=edge_label,
-    )
-    ax.text(
-        0.665,
-        0.515,
-        "state + rules",
         ha="center",
         va="center",
         fontsize=6.7,
